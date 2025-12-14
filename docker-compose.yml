@@ -105,7 +105,7 @@ services:
 
   # Kafka
   zooper:
-    image: confluentinc/cp-zookeeper:7.4.1
+    image: confluentinc/cp-zookeeper:7.4.0
     container_name: zooper
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181

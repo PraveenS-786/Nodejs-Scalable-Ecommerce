@@ -118,6 +118,6 @@ app.use((err: unknown, req: Request, res: Response, next: NextFunction) => {
 });
 
 // Start the server
-app.listen(port, () => {
+app.listen(port,'0.0.0.0', () => {
   console.log(`Server running on http://localhost:${port}`);
 });
