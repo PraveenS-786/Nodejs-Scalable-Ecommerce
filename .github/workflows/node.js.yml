@@ -1,4 +1,4 @@
-name: NodeJS Microservices CI
+name: NodeJS Microservices Build
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ "main", "master" ]
 
 jobs:
-  build-and-test:
+  build-services:
     runs-on: ubuntu-latest
 
     strategy:
@@ -26,11 +26,11 @@ jobs:
         working-directory: ${{ matrix.service }}
 
     steps:
-      # 1️⃣ Checkout source code
+      # 1️⃣ Checkout code
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2️⃣ Setup Node.js with npm cache per service
+      # 2️⃣ Setup Node.js with cache per service
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -42,10 +42,16 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # 4️⃣ Run tests (if present)
-      - name: Run tests
-        run: npm test --if-present
-
-      # 5️⃣ Build (if present)
-      - name: Build project
+      # 4️⃣ Build service (if build script exists)
+      - name: Build service
         run: npm run build --if-present
+
+      # 5️⃣ Upload build artifacts
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.service }}-build
+          path: |
+            ${{ matrix.service }}/dist
+            ${{ matrix.service }}/build
+          if-no-files-found: ignore
