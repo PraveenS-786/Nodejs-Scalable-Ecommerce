@@ -65,7 +65,7 @@ jobs:
 
       # 🐳 Build & Push Docker image
       - name: Build and Push Docker Image
-        uses: docker/build-push-action@v5
+        uses: mr-smithers-excellent/docker-build-push@v6
         with:
           context: ./${{ matrix.service }}
           file: ./${{ matrix.service }}/Dockerfile
